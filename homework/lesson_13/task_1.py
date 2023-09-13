@@ -3,9 +3,13 @@ import csv
 
 class Product:
     def __init__(self, name: str, product_type: str, price: float):
-        self.name = name
-        self.product_type = product_type
-        self.price = price
+        try:
+            if product_type in ('coffee', 'tea', 'additional'):
+                self.name = name
+                self.product_type = product_type
+                self.price = price
+        except ValueError as e:
+            print(f"Помилка: {e}")
 
     def __repr__(self):
         return f'{self.product_type.capitalize()}: {self.name}, Ціна: {self.price.__round__()} грн.'
@@ -26,7 +30,7 @@ class Store:
                 amount = int(row["Кількість"]) if row["Кількість"] else 5
                 price = float(price)
                 try:
-                    if product_type in ['coffee', 'tea', 'additional']:
+                    if product_type in ('coffee', 'tea', 'additional'):
                         product = Product(name, product_type, price)
                         self.products.append((product, amount))
                 except ValueError as e:
